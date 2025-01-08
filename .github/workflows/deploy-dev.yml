@@ -23,7 +23,9 @@ jobs:
         shell: bash
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-          echo "/root/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry --version
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
