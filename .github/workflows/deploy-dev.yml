@@ -41,7 +41,7 @@ jobs:
 
       - name: Create requirements.txt
         shell: bash
-        run: poetry export --without-hashes --format=requirements.txt > requirements.txt
+        run: poetry export -f requirements.txt --output requirements.txt
 
       - name: Deploy to dev environment
         uses: 18f/cg-deploy-action@main

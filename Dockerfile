@@ -34,7 +34,7 @@ ENV PYTHONPATH="${PYTHONPATH}:/app"
 WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 RUN poetry self add poetry-plugin-export
-RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
+RUN poetry export -f requirements.txt --output requirements.txt
 RUN pip install -r requirements.txt
 
 # Copy application code and compile Python bytecode
