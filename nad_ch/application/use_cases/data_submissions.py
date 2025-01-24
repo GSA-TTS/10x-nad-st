@@ -191,20 +191,22 @@ def create_data_submission(
             print(zf.namelist())
 
         # Test the zip file integrity
-        try:
-            with zipfile.ZipFile(temp_file_path, 'r') as zf:
-                print("Testing zip file integrity...")
-                corrupted_file = zf.testzip()
-                if corrupted_file:
-                    print(f"Corrupted file found in zip: {corrupted_file}")
-                    raise InvalidDataSubmissionFileError(f"Corrupted file in zip: {corrupted_file}")
-                print("Zip file is valid")
-        except zipfile.BadZipFile as e:
-            print(f"BadZipFile error: {e}")
-            raise InvalidDataSubmissionFileError(f"Invalid zip file: {e}")
-        except Exception as e:
-            print(f"Unexpected error during zip validation: {e}")
-            raise
+        # try:
+        #     with zipfile.ZipFile(temp_file_path, 'r') as zf:
+        #         print("Testing zip file integrity...")
+        #         corrupted_file = zf.testzip()
+        #         if corrupted_file:
+        #             print(f"Corrupted file found in zip: {corrupted_file}")
+        #             raise InvalidDataSubmissionFileError(f"Corrupted file in zip: {corrupted_file}")
+        #         print("Zip file is valid")
+        # except zipfile.BadZipFile as e:
+        #     print(f"BadZipFile error: {e}")
+        #     raise InvalidDataSubmissionFileError(f"Invalid zip file: {e}")
+        # except Exception as e:
+        #     print(f"Unexpected error during zip validation: {e}")
+        #     raise
+
+        ctx.storage.upload(temp_file_path, file_path)
 
         os.remove(temp_file_path)
 
