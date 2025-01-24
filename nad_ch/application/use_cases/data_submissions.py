@@ -1,5 +1,11 @@
 import os
-from typing import List, IO
+import shutil
+import tempfile
+import zipfile
+
+from werkzeug.datastructures import FileStorage
+from tempfile import NamedTemporaryFile
+from typing import List, IO, Union
 from nad_ch.application.dtos import DownloadResult
 from nad_ch.application.exceptions import (
     InvalidDataSubmissionFileError,
@@ -92,6 +98,7 @@ def validate_data_submission(
 def validate_file_before_submission(
     ctx: ApplicationContext, file: IO[bytes], column_map_id: int
 ) -> bool:
+    print("debug mapping starts------------")
     column_map = ctx.column_maps.get_by_id(column_map_id)
     if column_map is None:
         raise ValueError("Column map not found")
@@ -109,6 +116,8 @@ def validate_file_before_submission(
             "Invalid zipped file. Only Shapefiles and Geodatabase files are accepted."
         )
 
+    print("debug mapping------------")
+
     if not file_validator.validate_schema(column_map.mapping):
         raise InvalidSchemaError(
             "Invalid schema. The schema of the file must align with the schema of the \
@@ -123,7 +132,7 @@ def create_data_submission(
     user_id: int,
     column_map_id: int,
     submission_name: str,
-    file: IO[bytes],
+    file: Union[FileStorage, IO[bytes]],
 ):
     user = ctx.users.get_by_id(user_id)
     if user is None:
@@ -147,11 +156,60 @@ def create_data_submission(
             column_map,
         )
         saved_submission = ctx.submissions.add(submission)
+        print("saved_submission", saved_submission)
 
-        ctx.storage.upload(file, file_path)
+        # Write the uploaded file to a temporary file
+        with NamedTemporaryFile(delete=False, mode='wb', dir='/tmp') as temp_file:
+            temp_file_path = temp_file.name
+            print(f"Temporary file path: {temp_file_path}")
 
+            # Save stream to the temp file
+            with file.stream as fs:
+                shutil.copyfileobj(fs, temp_file, length=16384)
+
+        # Debug: Save a copy of the uploaded file for inspection
+        debug_path = "/tmp/debug_uploaded_file.zip"
+        shutil.copy(temp_file_path, debug_path)
+        print(f"Debug file saved at {debug_path}")
+
+        print(f"Temporary file written: {temp_file_path}")
+        print(f"Temp file size: {os.stat(temp_file_path).st_size} bytes")
+
+        print("Verify file access")
+        if not os.access(temp_file_path, os.R_OK):
+            print("File not readable")
+            raise InvalidDataSubmissionFileError("Temporary file is not accessible.")
+
+        print("Check if the file is a valid zip")
+        if not zipfile.is_zipfile(temp_file_path):
+            print("File not zipped")
+            raise InvalidDataSubmissionFileError("The uploaded file is not a valid zip file.")
+
+        # Log zip file contents
+        with zipfile.ZipFile(temp_file_path, 'r') as zf:
+            print("Zip file contents:")
+            print(zf.namelist())
+
+        # Test the zip file integrity
+        try:
+            with zipfile.ZipFile(temp_file_path, 'r') as zf:
+                print("Testing zip file integrity...")
+                corrupted_file = zf.testzip()
+                if corrupted_file:
+                    print(f"Corrupted file found in zip: {corrupted_file}")
+                    raise InvalidDataSubmissionFileError(f"Corrupted file in zip: {corrupted_file}")
+                print("Zip file is valid")
+        except zipfile.BadZipFile as e:
+            print(f"BadZipFile error: {e}")
+            raise InvalidDataSubmissionFileError(f"Invalid zip file: {e}")
+        except Exception as e:
+            print(f"Unexpected error during zip validation: {e}")
+            raise
+
+        os.remove(temp_file_path)
+
+        # No need to manually remove temp_zip_path because TemporaryDirectory handles cleanup
         ctx.logger.info(f"Submission added: {saved_submission.file_path}")
-
         return get_view_model(saved_submission)
     except Exception as e:
         ctx.storage.delete(file_path)

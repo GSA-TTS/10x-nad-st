@@ -263,7 +263,7 @@ class FileValidator:
             with fiona.open(gdb_path, layer=layer_name) as layer:
                 fields = layer.schema["properties"].keys()
                 filtered_expected_fields = [
-                    value for value in expected_schema.values() if value is not None
+                    value for value in expected_schema.values() if value not in [None, '']
                 ]
                 all_present = all(value in fields for value in filtered_expected_fields)
                 if all_present:

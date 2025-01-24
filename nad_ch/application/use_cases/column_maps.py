@@ -28,7 +28,7 @@ def add_column_map(
     column_map = ColumnMap(name, producer, mapping, 1)
 
     if not column_map.is_valid():
-        raise ValueError("Invalid mapping")
+        raise ValueError("Invalid mapping-------")
 
     saved_column_map = ctx.column_maps.add(column_map)
     ctx.logger.info("Column Map added")
@@ -69,7 +69,7 @@ def update_column_mapping(
     }
 
     if not column_map.is_valid():
-        raise ValueError("Invalid mapping")
+        raise ValueError("Invalid mapping.......")
 
     ctx.column_maps.update(column_map)
 
@@ -93,7 +93,7 @@ def update_column_mapping_field(
     }
 
     if not column_map.is_valid():
-        raise ValueError("Invalid mapping")
+        raise ValueError("Invalid mapping=======")
 
     ctx.column_maps.update(column_map)
 

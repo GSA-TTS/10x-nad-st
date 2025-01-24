@@ -102,6 +102,7 @@ class MinioStorage(S3Storage):
 
     def upload(self, source: str, destination: str) -> bool:
         try:
+            print(f"Uploading {source} to {destination}")
             response = self.client.fput_object(
                 file_path=source, bucket_name=self.bucket_name, object_name=destination
             )

@@ -97,7 +97,6 @@ class ColumnMap(Entity):
         "Unit",
         "Inc_Muni",
         "Post_City",
-        "DataSet_ID",
     ]
 
     def __init__(
