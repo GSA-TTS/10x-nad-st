@@ -118,6 +118,39 @@ class MinioStorage(S3Storage):
         else:
             print("Bucket", self.bucket_name, "already exists")
 
+    def download_temp(self, key: str) -> Optional[DownloadResult]:
+        print(f"Downloading {key}")
+        try:
+            temp_dir = tempfile.mkdtemp()
+            zip_file_path = os.path.join(temp_dir, key)
+            print(f"Downloading {key} to {zip_file_path}")
+
+            # Download the file from MinIO
+            self.client.fget_object(self.bucket_name, key, zip_file_path)
+            print(f"Downloaded {key} to {zip_file_path}")
+
+            extracted_dir = f"{temp_dir}_extracted"
+            with ZipFile(zip_file_path, "r") as zip_ref:
+                zip_ref.extractall(extracted_dir)
+
+            print("After extracting")
+
+            # Find .gdb directory (adjust logic if needed for other file types)
+            gdb_dirs = [
+                d
+                for d in glob.glob(os.path.join(extracted_dir, "*"))
+                if os.path.isdir(d) and d.endswith(".gdb")
+            ]
+            gdb_dir = gdb_dirs[0] if gdb_dirs else None
+
+            print(f"Found {len(gdb_dirs)}")
+            print(f"Extracting {gdb_dir}")
+
+            return DownloadResult(temp_dir=temp_dir, extracted_dir=gdb_dir)
+        except Exception as e:
+            print(f"An unexpected error occurred during download: {e}")
+            return None
+
 
 class LocalStorage(Storage):
     def __init__(self, base_path: str):

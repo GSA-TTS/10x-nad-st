@@ -61,6 +61,7 @@ def load_and_validate(
         )
     except Exception as e:
         raise self.retry(exec=e, countdown=30)
+    print("report_to_dict(report)", report_to_dict(report))
     return report_to_dict(report)
 
 
@@ -97,9 +98,10 @@ class CeleryTaskQueue(TaskQueue):
         mapped_data_dir: str,
     ):
         task_result = load_and_validate.apply_async(
-            args=[path, column_map, mapped_data_dir]
+            args=[path, column_map, ""]
         )
         report_dict = task_result.get()
+        print("result_dict", report_dict)
         submissions.update_report(submission_id, report_dict)
         return report_from_dict(report_dict)
 
