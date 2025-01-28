@@ -97,7 +97,7 @@ class ColumnMap(Entity):
         "Unit",
         "Inc_Muni",
         "Post_City",
-        # "DataSet_ID",  # TODO: WY_Crook_221014 mapping file doesn't come with this field.
+        # "DataSet_ID",  # TODO: WY_Crook_221014 mapping file is missing this field.
     ]
 
     def __init__(
