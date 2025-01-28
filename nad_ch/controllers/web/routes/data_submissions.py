@@ -82,7 +82,6 @@ def store():
         return redirect(url_for("submissions.create", name=name))
 
     file = request.files["mapping-csv-input"]
-    print("file-----", file)
     if file.filename == "":
         flash("No selected file")
         return redirect(url_for("submissions.create", name=name))
