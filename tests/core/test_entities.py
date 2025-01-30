@@ -68,13 +68,13 @@ def test_column_map_is_valid():
 
 def test_column_map_is_invalid_if_missing_a_required_field():
     mapping = {
-        "Add_Number": "address_number",
+        # "Add_Number": "address_number",
         "St_Name": "street_name",
         "St_PosTyp": "street_position_type",
         "Unit": "unit",
         "Inc_Muni": "city",
         "Post_City": "post_city",
-        # "DataSet_ID": "id",
+        "DataSet_ID": "id",
     }
 
     producer = DataProducer("Some producer")
