@@ -124,8 +124,6 @@ def test_create_data_submission(app_context):
 
 
 def test_validate_data_submission(app_context, caplog):
-    print("Initializing test...")
-
     producer_name = "New Jersey"
     nj = app_context.producers.add(DataProducer(producer_name))
     user = app_context.users.add(User("test@test.org", "foo", "bar", True, nj))
@@ -154,7 +152,6 @@ def test_validate_data_submission(app_context, caplog):
         content_type="application/zip"
     )
 
-    print("Creating data submission...")
     vm = create_data_submission(
         app_context, user.id, column_map.id, "TestSubmission", file_obj
     )
@@ -169,7 +166,6 @@ def test_validate_data_submission(app_context, caplog):
             column_map: Dict[str, str],
             mapped_data_dir: str,
         ):
-            print("Mock: Running load and validate")
             return DataSubmissionReport(
                 overview=DataSubmissionReportOverview(feature_count=1)
             )
@@ -177,13 +173,10 @@ def test_validate_data_submission(app_context, caplog):
         def run_copy_mapped_data_to_remote(
             self, mapped_data_local_dir: str, mapped_data_remote_dir: str
         ):
-            print("Mock: Copying mapped data")
             return True
 
     app_context._task_queue = CustomMockTestTaskQueue()
 
-    print("Calling validate_data_submission...")
     validate_data_submission(app_context, submission.file_path, column_map_name)
-    print("Finished validate_data_submission")
 
     assert re.search(r"Total number of features: 1", caplog.text)
