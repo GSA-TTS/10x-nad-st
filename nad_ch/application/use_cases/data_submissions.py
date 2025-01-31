@@ -170,11 +170,8 @@ def create_data_submission(
         shutil.copy(temp_file_path, debug_path)
 
         ctx.storage.upload(temp_file_path, file_path)
-
         os.remove(temp_file_path)
-
-        column_map_name = get_column_map(ctx, user_id).name
-        validate_data_submission(ctx, file_path, column_map_name)
+        validate_data_submission(ctx, file_path, column_map.name)
 
         ctx.logger.info(f"Submission added: {saved_submission.file_path}")
         return get_view_model(saved_submission)
