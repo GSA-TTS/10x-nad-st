@@ -122,7 +122,7 @@ def test_create_data_submission(app_context):
 
     assert isinstance(result, DataSubmissionViewModel)
 
-# TODO: revist this test case later as thing getting hung
+# TODO: revisit this test case later as the execution is getting hung
 # def test_validate_data_submission(app_context, caplog):
 #     producer_name = "New Jersey"
 #     nj = app_context.producers.add(DataProducer(producer_name))
