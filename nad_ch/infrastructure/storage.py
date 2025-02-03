@@ -122,7 +122,6 @@ class MinioStorage(S3Storage):
             temp_dir = tempfile.mkdtemp()
             zip_file_path = os.path.join(temp_dir, key)
 
-            # Download the file from MinIO
             self.client.fget_object(self.bucket_name, key, zip_file_path)
 
             extracted_dir = f"{temp_dir}_extracted"
