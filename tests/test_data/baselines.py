@@ -267,7 +267,7 @@ MAJOR_CITIES_SHP_REPORT = {
             "Unit",
             "Inc_Muni",
             "Post_City",
-            "DataSet_ID",
+            # "DataSet_ID",
         ],
     },
     "features": [
@@ -340,7 +340,7 @@ NM911_ADDRESS_202310_REPORT = {
         "missing_required_fields": [
             "Unit",
             "Inc_Muni",
-            "DataSet_ID",
+            # "DataSet_ID",
         ],
     },
     "features": [

@@ -339,6 +339,7 @@ class SqlAlchemyDataSubmissionRepository(DataSubmissionRepository):
 
             if submission_model:
                 submission_model.report = report
+                submission_model.status = DataSubmissionStatus.VALIDATED
                 session.commit()
                 session.refresh(submission_model)
                 return submission_model.to_entity()

@@ -97,7 +97,7 @@ class CeleryTaskQueue(TaskQueue):
         mapped_data_dir: str,
     ):
         task_result = load_and_validate.apply_async(
-            args=[path, column_map, mapped_data_dir]
+            args=[path, column_map, ""]
         )
         report_dict = task_result.get()
         submissions.update_report(submission_id, report_dict)

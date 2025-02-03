@@ -1,11 +1,18 @@
 import os
-from typing import List, IO
+import shutil
+import tempfile
+import zipfile
+
+from werkzeug.datastructures import FileStorage
+from tempfile import NamedTemporaryFile
+from typing import List, IO, Union
 from nad_ch.application.dtos import DownloadResult
 from nad_ch.application.exceptions import (
     InvalidDataSubmissionFileError,
     InvalidSchemaError,
 )
 from nad_ch.application.interfaces import ApplicationContext
+from nad_ch.application.use_cases.column_maps import get_column_map
 from nad_ch.application.validation import FileValidator
 from nad_ch.application.view_models import (
     get_view_model,
@@ -123,7 +130,7 @@ def create_data_submission(
     user_id: int,
     column_map_id: int,
     submission_name: str,
-    file: IO[bytes],
+    file: Union[FileStorage, IO[bytes]],
 ):
     user = ctx.users.get_by_id(user_id)
     if user is None:
@@ -148,10 +155,18 @@ def create_data_submission(
         )
         saved_submission = ctx.submissions.add(submission)
 
-        ctx.storage.upload(file, file_path)
+        with NamedTemporaryFile(delete=False, mode='wb', dir='/tmp') as temp_file:
+            temp_file_path = temp_file.name
+
+            file.stream.seek(0)
+            with file.stream as fs:
+                shutil.copyfileobj(fs, temp_file, length=1024 * 1024)
+
+        ctx.storage.upload(temp_file_path, file_path)
+        os.remove(temp_file_path)
+        validate_data_submission(ctx, file_path, column_map.name)
 
         ctx.logger.info(f"Submission added: {saved_submission.file_path}")
-
         return get_view_model(saved_submission)
     except Exception as e:
         ctx.storage.delete(file_path)
