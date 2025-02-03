@@ -76,8 +76,6 @@ def validate_data_submission(
         mapped_data_remote_dir = submission.get_mapped_data_dir(
             download_result.extracted_dir, LANDING_ZONE, True
         )
-        print("mapped_data_local_dir", mapped_data_local_dir)
-        print("mapped_data_remote_dir", mapped_data_remote_dir)
         report = ctx.task_queue.run_load_and_validate(
             ctx.submissions,
             submission.id,
@@ -85,12 +83,10 @@ def validate_data_submission(
             column_map.mapping,
             mapped_data_local_dir,
         )
-        print("report", report)
         _ = ctx.task_queue.run_copy_mapped_data_to_remote(
             mapped_data_local_dir,
             mapped_data_remote_dir,
         )
-        print("after task_queue.run_copy_mapped_data_to_remote")
 
         ctx.logger.info(f"Total number of features: {report.overview.feature_count}")
     except Exception:
@@ -165,9 +161,6 @@ def create_data_submission(
             file.stream.seek(0)
             with file.stream as fs:
                 shutil.copyfileobj(fs, temp_file, length=1024 * 1024)
-
-        debug_path = "/tmp/debug_uploaded_file.zip"
-        shutil.copy(temp_file_path, debug_path)
 
         ctx.storage.upload(temp_file_path, file_path)
         os.remove(temp_file_path)
