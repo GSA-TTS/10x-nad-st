@@ -1104,6 +1104,9 @@ shellingham==1.5.4 ; python_version == "3.11" or python_version >= "3.12" and py
 six==1.17.0 ; python_version == "3.11" or python_version >= "3.12" and python_version < "4.0" \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81
+sqlalchemy-utils==0.41.2 ; python_version == "3.11" or python_version >= "3.12" and python_version < "4.0" \
+    --hash=sha256:85cf3842da2bf060760f955f8467b87983fb2e30f1764fd0e24a48307dc8ec6e \
+    --hash=sha256:bc599c8c3b3319e53ce6c5c3c471120bd325d0071fb6f38a10e924e3d07b9990
 sqlalchemy==2.0.37 ; python_version == "3.11" or python_version >= "3.12" and python_version < "4.0" \
     --hash=sha256:03f0528c53ca0b67094c4764523c1451ea15959bbf0a8a8a3096900014db0278 \
     --hash=sha256:12b0f1ec623cccf058cf21cb544f0e74656618165b083d78145cafde156ea7b6 \
