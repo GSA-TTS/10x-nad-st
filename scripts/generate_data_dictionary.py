@@ -2,10 +2,18 @@ import os
 import time
 from sqlalchemy import create_engine, inspect
 
-REQUIRED_ENV_VARS = ["POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB", "POSTGRES_HOST", "POSTGRES_PORT"]
+REQUIRED_ENV_VARS = [
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_DB",
+    "POSTGRES_HOST",
+    "POSTGRES_PORT",
+]
 
 if missing_vars := [var for var in REQUIRED_ENV_VARS if not os.getenv(var)]:
-    raise EnvironmentError(f"❌ Missing required environment variables: {', '.join(missing_vars)}")
+    raise EnvironmentError(
+        f"❌ Missing required environment variables: {', '.join(missing_vars)}"
+    )
 
 DB_USER = os.getenv("POSTGRES_USER")
 DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
@@ -37,8 +45,12 @@ data_dict_content = "# Database Data Dictionary\n\n"
 
 for table_name in inspector.get_table_names():
     data_dict_content += f"## Table: `{table_name}`\n\n"
-    data_dict_content += "| Column Name | Data Type | Nullable | Default | Primary Key |\n"
-    data_dict_content += "|------------|----------|----------|---------|-------------|\n"
+    data_dict_content += (
+        "| Column Name | Data Type | Nullable | Default | Primary Key |\n"
+    )
+    data_dict_content += (
+        "|------------|----------|----------|---------|-------------|\n"
+    )
 
     pk_constraint = inspector.get_pk_constraint(table_name)
     pk_columns = set(pk_constraint.get("constrained_columns", []))
@@ -50,7 +62,9 @@ for table_name in inspector.get_table_names():
         default = column.get("default", "None")
         primary_key = "Yes" if col_name in pk_columns else "No"
 
-        data_dict_content += f"| {col_name} | {col_type} | {nullable} | {default} | {primary_key} |\n"
+        data_dict_content += (
+            f"| {col_name} | {col_type} | {nullable} | {default} | {primary_key} |\n"
+        )
 
     data_dict_content += "\n"
 
