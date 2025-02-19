@@ -12,6 +12,7 @@ authors = []
 python = "^3.11"
 click = "^8.1.7"
 sqlalchemy = "^2.0.23"
+sqlalchemy-utils = "^0.41.1"
 python-dotenv = "^1.0.0"
 flask = "^3.0.1"
 boto3 = "^1.34.25"
