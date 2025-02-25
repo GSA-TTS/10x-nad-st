@@ -186,3 +186,5 @@ node_modules/
 # Landing zone data storage
 data/landing_zone/*
 !data/landing_zone/README.md
+
+.idea/
