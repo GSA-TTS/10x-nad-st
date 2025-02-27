@@ -90,7 +90,7 @@ print(f"Identified project root: {project_root}")
 # Place the file in the documentation directory at the project root
 documentation_dir = os.path.join(project_root, "documentation")
 output_path = os.path.join(documentation_dir, "data_dictionary.md")
-# Ensure the documentation directory exists
+
 os.makedirs(documentation_dir, exist_ok=True)
 print(f"Output path set to: {output_path}")
 
