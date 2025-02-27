@@ -2,6 +2,7 @@ import os
 import time
 from sqlalchemy import create_engine, inspect
 
+# Check required environment variables
 REQUIRED_ENV_VARS = [
     "POSTGRES_USER",
     "POSTGRES_PASSWORD",
@@ -15,6 +16,7 @@ if missing_vars := [var for var in REQUIRED_ENV_VARS if not os.getenv(var)]:
         f"❌ Missing required environment variables: {', '.join(missing_vars)}"
     )
 
+# Get database connection details from environment variables
 DB_USER = os.getenv("POSTGRES_USER")
 DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 DB_NAME = os.getenv("POSTGRES_DB")
@@ -68,8 +70,30 @@ for table_name in inspector.get_table_names():
 
     data_dict_content += "\n"
 
-output_path = "./documentation/data_dictionary.md"
-os.makedirs(os.path.dirname(output_path), exist_ok=True)
+# Get the directory where the script is being executed from
+current_dir = os.path.abspath(os.getcwd())
+print(f"Current working directory: {current_dir}")
+
+# Get the parent directory (10x-nad-st) - go up to the correct project root
+# If script is running from scripts/ folder, need to go up one level
+if os.path.basename(current_dir) == "scripts":
+    project_root = os.path.dirname(current_dir)
+else:
+    # Assume we need to find the project root from current location
+    project_root = current_dir
+    # Go up in the path until we find the 10x-nad-st directory or reach filesystem root
+    while os.path.basename(project_root) != "10x-nad-st" and project_root != os.path.dirname(project_root):
+        project_root = os.path.dirname(project_root)
+
+print(f"Identified project root: {project_root}")
+
+# Place the file in the documentation directory at the project root
+documentation_dir = os.path.join(project_root, "documentation")
+output_path = os.path.join(documentation_dir, "data_dictionary.md")
+# Ensure the documentation directory exists
+os.makedirs(documentation_dir, exist_ok=True)
+print(f"Output path set to: {output_path}")
+
 with open(output_path, "w", encoding="utf-8") as file:
     file.write(data_dict_content)
 
