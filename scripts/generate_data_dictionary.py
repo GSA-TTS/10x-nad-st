@@ -68,7 +68,7 @@ for table_name in inspector.get_table_names():
 
     data_dict_content += "\n"
 
-output_path = "./documentation/DATA_DICTIONARY.md"
+output_path = "./documentation/data_dictionary.md"
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 with open(output_path, "w", encoding="utf-8") as file:
     file.write(data_dict_content)
