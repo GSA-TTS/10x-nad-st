@@ -388,9 +388,7 @@ class SqlAlchemyUserRepository(UserRepository):
     def update(self, user: User) -> User:
         with session_scope(self.session_factory) as session:
             existing_user = (
-                session.query(UserModel)
-                .filter(UserModel.id == user.id)
-                .first()
+                session.query(UserModel).filter(UserModel.id == user.id).first()
             )
 
             existing_user.email = user.email

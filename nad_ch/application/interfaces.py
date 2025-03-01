@@ -50,7 +50,7 @@ class Authentication(Protocol):
         provider_name: str,
         state_token: str,
         acr_values: Optional[str] = None,
-        nonce: Optional[str] = None
+        nonce: Optional[str] = None,
     ) -> Optional[str]: ...
 
     def make_logout_url(self, provider_name: str) -> Optional[str]: ...

@@ -3,7 +3,7 @@ from tests.test_data.baselines import *
 from nad_ch.config import QUEUE_BACKEND_URL, QUEUE_BROKER_URL
 
 
-pytest_plugins = ("celery.contrib.pytest", )
+pytest_plugins = ("celery.contrib.pytest",)
 
 
 @pytest.fixture(scope="session")
@@ -14,5 +14,5 @@ def celery_config():
         "broker_connection_retry": True,
         "broker_connection_retry_delay": 5,
         "broker_connection_retry_max": 3,
-        "broker_connection_retry_on_startup": True
+        "broker_connection_retry_on_startup": True,
     }

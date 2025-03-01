@@ -82,7 +82,9 @@ else:
     # Assume we need to find the project root from current location
     project_root = current_dir
     # Go up in the path until we find the 10x-nad-st directory or reach filesystem root
-    while os.path.basename(project_root) != "10x-nad-st" and project_root != os.path.dirname(project_root):
+    while os.path.basename(
+        project_root
+    ) != "10x-nad-st" and project_root != os.path.dirname(project_root):
         project_root = os.path.dirname(project_root)
 
 print(f"Identified project root: {project_root}")
