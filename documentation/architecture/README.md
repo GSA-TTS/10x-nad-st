@@ -26,6 +26,37 @@ The current remote development environment uses [services provided by cloud.gov]
 - **Task Queue Broker**: Manages queue of data validation tasks for Celery, via
   [AWS Elasticache Redis](https://cloud.gov/docs/services/aws-elasticache/).
 
+```mermaid
+graph TD
+    subgraph NAD_CH [NAD CH]
+        app[Flask Server]
+
+        %% Infrastructure Dependencies
+        subgraph Storage
+            s3[S3<br>Cloud.gov: s3<br>Local: MinIO<br>AWS: S3]
+        end
+
+        subgraph Database
+            postgres[Relational DB<br>Cloud.gov: aws-rds<br>Local: Postgres<br>AWS: RDS PostgreSQL]
+        end
+
+        subgraph Queue
+            redis[Task Queue<br>Cloud.gov: aws-elasticache-redis<br>Local: Redis<br>AWS: ElastiCache Redis]
+        end
+
+        subgraph Monitoring
+            flower[Task Monitoring<br>Cloud.gov: Cloud Foundry App<br>Local: Flower<br>AWS: ECS/CloudWatch]
+        end
+
+        %% Connections
+        app -->|Stores metadata| postgres
+        app -->|Enqueues tasks| redis
+        app -->|Reads/writes data| s3
+        app -->|Monitors tasks| flower
+        flower -->|Uses| redis
+    end
+```    
+
 ### System diagram
 
 ```mermaid
