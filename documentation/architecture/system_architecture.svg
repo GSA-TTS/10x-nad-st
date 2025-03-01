@@ -40,12 +40,12 @@
   <!-- DataHandler & Validator -->
   <rect x="430" y="120" width="350" height="650" rx="10" ry="10" fill="#f0fff4" stroke="#38a169" stroke-width="2" filter="url(#dropShadow)"/>
   <rect x="430" y="120" width="350" height="40" rx="10" ry="10" fill="#38a169"/>
-  <text x="605" y="147" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">Data Handler & Validator</text>
+  <text x="605" y="147" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">Data Handler and Validator</text>
 
   <!-- Storage & Task Queue -->
   <rect x="810" y="120" width="350" height="650" rx="10" ry="10" fill="#fff5f5" stroke="#e53e3e" stroke-width="2" filter="url(#dropShadow)"/>
   <rect x="810" y="120" width="350" height="40" rx="10" ry="10" fill="#e53e3e"/>
-  <text x="985" y="147" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">Storage & Task Queue</text>
+  <text x="985" y="147" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">Storage and Task Queue</text>
 
   <!-- Data Submission Use Cases Elements -->
   <!-- get_data_submission -->
@@ -190,23 +190,23 @@
 
   <!-- Key Workflow Steps Highlights -->
   <!-- Step 1 -->
-  <circle cx="225" y="430" r="20" fill="#3182ce" stroke="white" stroke-width="2"/>
+  <circle cx="225" cy="430" r="20" fill="#3182ce" stroke="white" stroke-width="2"/>
   <text x="225" y="435" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">1</text>
 
   <!-- Step 2 -->
-  <circle cx="605" y="430" r="20" fill="#38a169" stroke="white" stroke-width="2"/>
+  <circle cx="605" cy="430" r="20" fill="#38a169" stroke="white" stroke-width="2"/>
   <text x="605" y="435" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">2</text>
 
   <!-- Step 3 -->
-  <circle cx="605" y="700" r="20" fill="#38a169" stroke="white" stroke-width="2"/>
+  <circle cx="605" cy="700" r="20" fill="#38a169" stroke="white" stroke-width="2"/>
   <text x="605" y="705" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">3</text>
 
   <!-- Step 4 -->
-  <circle cx="985" y="430" r="20" fill="#e53e3e" stroke="white" stroke-width="2"/>
+  <circle cx="985" cy="430" r="20" fill="#e53e3e" stroke="white" stroke-width="2"/>
   <text x="985" y="435" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">4</text>
 
   <!-- Step 5 -->
-  <circle cx="985" y="660" r="20" fill="#e53e3e" stroke="white" stroke-width="2"/>
+  <circle cx="985" cy="660" r="20" fill="#e53e3e" stroke="white" stroke-width="2"/>
   <text x="985" y="665" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">5</text>
 
   <!-- Legend -->
@@ -215,7 +215,7 @@
   <text x="220" y="805" font-family="Arial, sans-serif" font-size="14">→</text>
   <text x="260" y="805" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#38a169">Data Processing</text>
   <text x="400" y="805" font-family="Arial, sans-serif" font-size="14">→</text>
-  <text x="440" y="805" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e53e3e">Storage & Task Management</text>
+  <text x="440" y="805" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e53e3e">Storage and Task Management</text>
   <text x="700" y="805" font-family="Arial, sans-serif" font-size="14">→</text>
   <text x="740" y="805" font-family="Arial, sans-serif" font-size="14">Complete NAD-Compliant GIS Data</text>
 </svg>
