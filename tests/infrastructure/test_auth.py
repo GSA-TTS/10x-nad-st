@@ -39,10 +39,10 @@ def test_fetch_oauth2_token_success(mocker, auth_impl):
                 "-----END PRIVATE KEY-----"
             ),
             "alg": "RS256",
-        }
+        },
     }
 
-    mocker.patch.object(auth_impl, '_providers', {"test_provider": provider_config})
+    mocker.patch.object(auth_impl, "_providers", {"test_provider": provider_config})
 
     mock_jwt_encode = mocker.patch("nad_ch.infrastructure.auth.jose_jwt.encode")
     mock_jwt_encode.return_value = b"mocked_signed_jwt"
@@ -57,7 +57,7 @@ def test_fetch_oauth2_token_success(mocker, auth_impl):
             "-----BEGIN PRIVATE KEY-----\n"
             "mocked_key_content\n"
             "-----END PRIVATE KEY-----"
-        )
+        ),
     )
     mock_post.assert_called_once_with(
         "https://example.com/oauth/token",

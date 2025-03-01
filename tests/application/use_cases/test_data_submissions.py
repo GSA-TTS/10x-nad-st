@@ -9,7 +9,8 @@ from nad_ch.application.dtos import DataSubmissionReport, DataSubmissionReportOv
 from nad_ch.application.use_cases.data_submissions import (
     get_data_submission,
     get_data_submissions_by_producer,
-    create_data_submission, validate_data_submission,
+    create_data_submission,
+    validate_data_submission,
 )
 from nad_ch.application.view_models import (
     DataSubmissionViewModel,
@@ -49,7 +50,7 @@ def test_get_data_submission(app_context):
     file_obj = FileStorage(
         stream=BytesIO(file_content),
         filename="test.zip",
-        content_type="application/zip"
+        content_type="application/zip",
     )
 
     submission = create_data_submission(
@@ -113,7 +114,7 @@ def test_create_data_submission(app_context):
     file_obj = FileStorage(
         stream=BytesIO(file_content),
         filename="test.zip",
-        content_type="application/zip"
+        content_type="application/zip",
     )
 
     result = create_data_submission(
@@ -121,6 +122,7 @@ def test_create_data_submission(app_context):
     )
 
     assert isinstance(result, DataSubmissionViewModel)
+
 
 # TODO: revisit this test case later as the execution is getting hung
 # def test_validate_data_submission(app_context, caplog):

@@ -17,7 +17,7 @@ class ViewModel(Protocol):
 
 
 def get_view_model(
-    entity: Union[Entity, List[Entity]]
+    entity: Union[Entity, List[Entity]],
 ) -> Union[ViewModel, List[ViewModel]]:
     """
     Provide a single factory function that an application use case can call in order to

@@ -155,7 +155,7 @@ def create_data_submission(
         )
         saved_submission = ctx.submissions.add(submission)
 
-        with NamedTemporaryFile(delete=False, mode='wb', dir='/tmp') as temp_file:
+        with NamedTemporaryFile(delete=False, mode="wb", dir="/tmp") as temp_file:
             temp_file_path = temp_file.name
 
             file.stream.seek(0)
