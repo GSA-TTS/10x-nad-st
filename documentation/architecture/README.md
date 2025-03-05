@@ -58,7 +58,7 @@ flowchart TB
         subgraph INFRA_LAYER ["Infrastructure Layer"]
             postgres[(PostgreSQL Database)]
             redis[(Redis Queue)]
-            s3[(MinIO Object Storage)]
+            s3[(S3 Object Storage)]
         end
         
         %% Internal Connections
