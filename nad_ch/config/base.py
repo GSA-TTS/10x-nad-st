@@ -20,10 +20,7 @@ OAUTH2_CONFIG = {
             "url": "https://idp.int.identitysandbox.gov/api/openid_connect/userinfo",
             "email": lambda json: json["email"],
         },
-        "private_key_jwt": {
-            "key": os.getenv("LOGINGOV_PRIVATE_KEY"),
-            "alg": "RS256"
-        },
+        "private_key_jwt": {"key": os.getenv("LOGINGOV_PRIVATE_KEY"), "alg": "RS256"},
         "acr_values": "http://idmanagement.gov/ns/assurance/ial/1",
         "scopes": ["openid", "email", "profile"],
         "nonce": lambda: secrets.token_urlsafe(64),
