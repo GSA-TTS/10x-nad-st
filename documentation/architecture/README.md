@@ -61,39 +61,63 @@ graph TD
 
 ```mermaid
 flowchart TB
-    %% NAD System Boundary
-    subgraph NAD_CH [NAD CH]
-        direction TB
-        %% Application and AWS Infrastructure
-        app[[Python/Flask Server]]
-
-        %% Storage Backends
-        postgres[(RDS Postgres)]
-        redis{{AWS Redis}}
-        s3[/S3 Bucket/]
-
-        %% Connections from Flask Application
-        app -.->|Stores provider and submission metadata| postgres
-        app -.->|Enqueues tasks| redis
-        app -.->|Reads and writes submissions| s3
-
-        %% Job Runner positioned below storage backends
-        job_runner[[Job Runner]]
-        job_runner -.->|Reads tasks| redis
-        job_runner -.->|Reads and writes data| s3
-    end
-
-    %% CI/CD System
-    cicd[(GitHub or GitLab)]
-    cicd -->|Deploys application stack - HTTPS| NAD_CH
-
-    %% External Components and Users
+    %% External Users
+    data_provider([Data Provider])
+    nad_admin([NAD Administrator])
+    
+    %% Authentication System
     login[(Login.gov)]
-    data_provider{{Data Provider}}
-    nad_admin{{NAD Administrator}}
-
-    %% Interactions and Connections
-    data_provider -- Uploads Data Extracts - HTTPS --> app
-    nad_admin -- Manages Submissions & Providers - HTTPS --> app
-    app -->|Authenticates users - HTTPS| login
+    
+    %% CI/CD Pipeline
+    cicd[GitHub/GitLab CI/CD]
+    
+    %% Main System Boundary
+    subgraph NAD_SYSTEM ["National Address Database Submission Tool"]
+        direction TB
+        
+        %% Application Layer
+        subgraph APP_LAYER ["Application Layer"]
+            app[Python/Flask Web Server]
+        end
+        
+        %% Task Processing Layer
+        subgraph PROCESSING_LAYER ["Processing Layer"]
+            job_runner[Celery Worker]
+        end
+        
+        %% Infrastructure Layer
+        subgraph INFRA_LAYER ["Infrastructure Layer"]
+            postgres[(PostgreSQL Database)]
+            redis[(Redis Queue)]
+            s3[(S3 Object Storage)]
+        end
+        
+        %% Internal Connections
+        app -->|Store metadata| postgres
+        app -->|Queue tasks| redis
+        app -->|Store & read files| s3
+        
+        job_runner -->|Process tasks| redis
+        job_runner -->|Read & write data| s3
+        job_runner -->|Update status| postgres
+    end
+    
+    %% External Connections
+    data_provider -->|Submit GIS data| app
+    nad_admin -->|Manage platform| app
+    app -->|Authenticate users| login
+    cicd -->|Deploy application| NAD_SYSTEM
+    
+    %% Visual Styling
+    classDef external fill:#e6f7ff,stroke:#1890ff,stroke-width:2px
+    classDef infrastructure fill:#f9f0ff,stroke:#722ed1,stroke-width:2px
+    classDef application fill:#f0fff4,stroke:#52c41a,stroke-width:2px
+    classDef processing fill:#fff2e8,stroke:#fa8c16,stroke-width:2px
+    classDef system fill:#ffffff,stroke:#434343,stroke-width:2px,stroke-dasharray: 5 5
+    
+    class data_provider,nad_admin,login,cicd external
+    class postgres,redis,s3 infrastructure
+    class app application
+    class job_runner processing
+    class NAD_SYSTEM system
 ```
