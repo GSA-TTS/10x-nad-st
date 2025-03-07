@@ -33,7 +33,7 @@ graph TD
 
         %% Infrastructure Dependencies
         subgraph Storage
-            s3[S3<br>Cloud.gov: s3<br>Local: MinIO<br>AWS: S3]
+            s3[Object Store<br>Cloud.gov: s3<br>Local: MinIO<br>AWS: S3]
         end
 
         subgraph Database
@@ -45,7 +45,7 @@ graph TD
         end
 
         subgraph Monitoring
-            flower[Task Monitoring<br>Cloud.gov: Cloud Foundry App<br>Local: Flower<br>AWS: ECS/CloudWatch]
+            flower[Task Monitoring<br>Cloud.gov: ELK Stack <br>Local: Flower<br>AWS: ECS/CloudWatch]
         end
 
         %% Connections
