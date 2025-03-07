@@ -1,0 +1,28 @@
+sequenceDiagram
+    actor User
+    participant WebApp
+    participant API
+    participant Validator as File Validator
+    participant Storage as Storage Service
+    participant Queue as Task Queue
+    participant Worker as Validation Worker
+
+    User->>WebApp: Upload CSV with column mapping
+    WebApp->>API: create_data_submission()
+    API->>Validator: validate_file_before_submission()
+    Validator-->>API: Validation result
+
+    alt File is valid
+        API->>Storage: Upload to S3
+        API->>Queue: Schedule validation task
+        Queue->>Worker: Process validation job
+        Worker->>Storage: Download from S3
+        Worker->>Worker: Validate data against schema
+        Worker->>Storage: Upload mapped data
+        Worker-->>API: Validation report
+        API-->>WebApp: Submission success
+        WebApp-->>User: Display success message
+    else File is invalid
+        API-->>WebApp: Validation error
+        WebApp-->>User: Display error message
+    end
